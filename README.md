@@ -1,8 +1,8 @@
 # YouTube Live First Comment Checker
 ## 概要
 YouTube Liveのチャット（live_comments）の初コメを太字にするChromeプラグインです。  
-このプラグインを利用するには```Google Chrome```が必要です。
-```Opera```では```Download Chrome Extension```というプラグインを入れることで、このプラグインを利用できます。
+このプラグインを利用するには[Google Chrome](https://www.google.com/intl/en/chrome/browser/desktop/)が必要です。
+[Opera](http://www.opera.com/)では[Download Chrome Extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/)というプラグインを入れることで、このプラグインを利用できます。
 
 ## 使い方
 1. このフォルダを解凍します。すでに解凍されている場合はこの操作は不要です。
