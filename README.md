@@ -6,7 +6,7 @@ YouTube Liveのチャット（live_comments）の初コメを太字にするChro
 
 ## 使い方
 1. このフォルダを解凍します。すでに解凍されている場合はこの操作は不要です。
-1. Google chromeを開きます。
+1. Google Chromeを開きます。
 1. アドレスバーに以下のURLを入力し実行して拡張機能画面を開きます。
 ```
 chrome://chrome/extensions/

@@ -1,7 +1,7 @@
 {
   "name": "YouTube Live First Comment Checker",
   "description": "YouTube Liveのチャット（live_comments）の初コメを太字にする",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "manifest_version": 2,
   "icons": {
     "128": "img/icon.png"
@@ -15,5 +15,8 @@
       "js": ["lib/js/jquery.js", "js/main.js"],
       "run_at": "document_start"
     }
+  ],
+  "permissions": [
+    "storage"
   ]
 }
