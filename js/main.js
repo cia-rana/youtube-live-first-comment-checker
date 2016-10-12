@@ -1,7 +1,13 @@
 (function(){
 var usernamesShowLabel = "ユーザー名を表示";
 var usernamesHideLabel = "ユーザー名を非表示";
-var usernameWidth = 100;
+var usernamesWidth = 100;
+chrome.storage.local.get("usernamesWidth", function(value){
+    valueUsernamesWidth = value.usernamesWidth;
+    if(valueUsernamesWidth !== void 0){
+        usernamesWidth = parseInt(valueUsernamesWidth);
+    }
+});
 
 function putOutUsername(comment){
     $(comment).find('div.content>span.byline:first')
@@ -14,7 +20,10 @@ function putOutUsername(comment){
           });
         },
         stop: function(event, ui){
-            usernameWidth = ui.size.width;
+            usernamesWidth = ui.size.width;
+            chrome.storage.local.set(
+                {"usernamesWidth": String(usernamesWidth)}
+            );
         },
     })
     .css('min-height', '24px')
@@ -44,6 +53,7 @@ var commentObserver = {
                 for(let i=0; i<addedNodes.length; i++){
                     thickenComment(addedNodes.item(i));
                     putOutUsername(addedNodes.item(i));
+                    resizeUsernameWidth(addedNodes.item(i), usernamesWidth);
                 }
             });
         }
