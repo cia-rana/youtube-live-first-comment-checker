@@ -1,25 +1,40 @@
 (function(){
-var usernamesShowLabel = "ユーザー名を表示"
-var usernamesHideLabel = "ユーザー名を非表示"
+var usernamesShowLabel = "ユーザー名を表示";
+var usernamesHideLabel = "ユーザー名を非表示";
+var usernameWidth = 100;
 
-function displayChangeUsername(comment){
-    var username = $(comment).find('div.content>span.byline:first');
-    if(isUsernamesShown){
-      username.show();
-    }else{
-      username.hide();
-    }
+function putOutUsername(comment){
+    $(comment).find('div.content>span.byline:first')
+    .resizable({
+        handles: 'e',
+        resize: function(event, ui){
+          var width = ui.size.width;
+          $('li.comment').each(function(i, li){
+              resizeUsernameWidth(li, width);
+          });
+        },
+        stop: function(event, ui){
+            usernameWidth = ui.size.width;
+        },
+    })
+    .css('min-height', '24px')
+    .css('width', '100px')
+    .css('white-space', 'nowrap')
+    .css('overflow', 'hidden')
+    .css('text-overflow', 'ellipsis')
+    .insertAfter($(comment).find('a.avatar'));
+    
+    $(comment).find('span.byline>span.author>a.yt-user-name:first')
+    .css('min-width', '100px');
+    
+    $(comment).find('div.content')
+    .css('width', '1px');
 }
 
-var isUsernamesShown = true
-chrome.storage.local.get("isUsernamesShown", function(value){
-    valueUsernamesShown = value.isUsernamesShown;
-    if(valueUsernamesShown === void 0){ // void 0 === undifined
-      isUsernamesShown = true;
-    }else{
-      isUsernamesShown = valueUsernamesShown === "true";
-    }
-});
+function resizeUsernameWidth(comment, width){
+    $(comment).find('span.byline:first')
+    .css('width', width + 'px')
+}
 
 var commentObserver = {
     Start: function(){
@@ -28,12 +43,12 @@ var commentObserver = {
                 var addedNodes = mutation.addedNodes;
                 for(let i=0; i<addedNodes.length; i++){
                     thickenComment(addedNodes.item(i));
-                    displayChangeUsername(addedNodes.item(i))
+                    putOutUsername(addedNodes.item(i));
                 }
             });
         }
         function thickenComment(comment){
-            var channelId = $(comment).children('a.avatar:first').attr('href');
+            var channelId = $(comment).attr('data-author-id');
             if(!channelIdSet.has(channelId)){
               channelIdSet.add(channelId);
               $(comment).find('div.comment-text:first').css("font-weight", "bold");
@@ -51,7 +66,7 @@ var commentObserver = {
         // Observer開始時に一度全コメントを走査する
         $('li.comment').each(function(i, li){
             thickenComment(li);
-            displayChangeUsername(li);
+            putOutUsername(li);
         });
     },
     Stop: function(){
@@ -65,31 +80,6 @@ function waitDomAllComments(){
     
     // コメント欄が読み込まれた場合
     if(domAllComments.size() > 0){
-        $('div.live-chat-overflow-menu')
-        .append(
-            '<button type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select chat-display-change-usernames">'
-            + '<span class="yt-ui-menu-item-label">'
-                + (isUsernamesShown ? usernamesHideLabel : usernamesShowLabel)
-            + '</span>'
-          + '</button>'
-        );
-        
-        $(document).on('click', 'button.chat-display-change-usernames', function(){
-            isUsernamesShown = !isUsernamesShown;
-            
-            // ボタンの表示を変更
-            $('div.live-chat-overflow-menu>button.chat-display-change-usernames>span.yt-ui-menu-item-label')
-            .text(isUsernamesShown ? usernamesHideLabel : usernamesShowLabel);
-            
-            chrome.storage.local.set(
-                {"isUsernamesShown": String(isUsernamesShown)}
-            );
-            
-            $('li.comment').each(function(i, li){
-                displayChangeUsername(li);
-            });
-        });
-        
         clearInterval(domAllCommentsWaitingId);
         commentObserver.Start();
     }

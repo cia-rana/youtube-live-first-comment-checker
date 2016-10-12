@@ -12,7 +12,14 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/watch*", "https://www.youtube.com/live_chat*", "https://www.youtube.com/live_dashboard*"],
-      "js": ["lib/js/jquery.js", "js/main.js"],
+      "js": [
+        "lib/js/jquery.js",
+        "lib/js/jquery-ui.min.js",
+        "js/main.js"
+      ],
+      "css": [
+        "lib/css/jquery-ui.min.css"
+      ],
       "run_at": "document_start"
     }
   ],
