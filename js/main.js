@@ -14,9 +14,9 @@ function putOutUsername(comment){
     .resizable({
         handles: 'e',
         resize: function(event, ui){
-          var width = ui.size.width;
+          usernamesWidth = ui.size.width;
           $('li.comment').each(function(i, li){
-              resizeUsernameWidth(li, width);
+              resizeUsernameWidth(li, usernamesWidth);
           });
         },
         stop: function(event, ui){
@@ -42,7 +42,7 @@ function putOutUsername(comment){
 
 function resizeUsernameWidth(comment, width){
     $(comment).find('span.byline:first')
-    .css('width', width + 'px')
+    .css('width', width + 'px');
 }
 
 var commentObserver = {
@@ -67,8 +67,8 @@ var commentObserver = {
         }
         var channelIdSet = new Set();
         
-        commentObserver.mo = new MutationObserver(commentsEvent);
-        commentObserver.mo.observe(domAllComments[0], {
+        this.mo = new MutationObserver(commentsEvent);
+        this.mo.observe(domAllComments[0], {
             attributeFilter: ['li.comment'],
             childList: true
         });
@@ -80,7 +80,7 @@ var commentObserver = {
         });
     },
     Stop: function(){
-        commentObserver.mo.disconnect();
+        this.mo.disconnect();
     }
 }
 
