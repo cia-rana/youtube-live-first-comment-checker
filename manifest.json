@@ -11,7 +11,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/watch*", "https://www.youtube.com/live_chat*", "https://www.youtube.com/live_dashboard*"],
+      "matches": ["https://www.youtube.com/watch*",
+                  "https://www.youtube.com/live_chat*",
+                  "https://www.youtube.com/live_dashboard*",
+                  "https://gaming.youtube.com/watch*",
+                  "https://gaming.youtube.com/live_chat*",
+                  "https://gaming.youtube.com/live_dashboard*"],
       "js": [
         "lib/js/jquery.min.js",
         "lib/js/jquery-ui.min.js",
@@ -24,6 +29,13 @@
       "run_at": "document_start"
     }
   ],
+  "background": {
+    "scripts": [
+      "lib/js/jquery.min.js",
+      "src/js/event.js"
+    ],
+    "persistent": false
+  },
   "permissions": [
     "storage"
   ]
